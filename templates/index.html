@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Local Chatbot</title>
+    <script>
+        async function sendMessage() {
+            const userMessage = document.getElementById("message").value;
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: userMessage })
+            });
+            const data = await response.json();
+            document.getElementById("chatbox").innerText += "You: " + userMessage + "\n";
+            document.getElementById("chatbox").innerText += "Bot: " + data.response + "\n\n";
+            document.getElementById("message").value = "";
+        }
+    </script>
+</head>
+<body>
+    <h1>Chat with Mistral</h1>
+    <textarea id="chatbox" rows="20" cols="80" readonly></textarea><br>
+    <input type="text" id="message" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+</body>
+</html>
